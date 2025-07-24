@@ -1,0 +1,13 @@
+@EndUserText.label : 'Item Exercicio Sideeffects'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #RESTRICTED
+define table zcr82_t_se_itm {
+
+  key client      : abap.clnt not null;
+  key id_registro : abap.char(10) not null;
+  key id_item     : abap.int2 not null;
+  descricao_item  : abap.char(50);
+
+}
