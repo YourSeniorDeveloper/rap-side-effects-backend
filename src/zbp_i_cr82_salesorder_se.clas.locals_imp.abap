@@ -32,10 +32,23 @@ CLASS lhc_SalesOrder IMPLEMENTATION.
         RESULT DATA(lt_changed_items)
         FAILED DATA(lt_failed_items).
 
-    LOOP AT lt_changed_items INTO DATA(ls_changed_item).
-      DATA(lv_hdr_key) = ls_changed_item-SalesOrderUuid.
+    READ TABLE lt_changed_items INTO DATA(ls_changed_item) INDEX 1.
+    DATA(lv_hdr_key) = ls_changed_item-SalesOrderUuid.
+
+    LOOP AT lt_changed_items INTO ls_changed_item.
+
       lv_total_net_value = lv_total_net_value + ls_changed_item-NetValue.
     ENDLOOP.
+
+    SELECT * FROM ZI_CR82_SalesOrder_I
+      WHERE SalesOrderUuid = @lv_hdr_key
+      INTO TABLE @DATA(lt_sales_order_item).
+
+    LOOP AT lt_sales_order_item INTO DATA(ls_sales_order_item).
+        CHECK NOT line_exists( lt_changed_items[ SalesOrderItemUuid = ls_sales_order_item-SalesOrderItemUuid ] ).
+        lv_total_net_value = lv_total_net_value + ls_sales_order_item-NetValue.
+    ENDLOOP.
+
 
     MODIFY ENTITIES OF ZI_CR82_SalesOrder_H IN LOCAL MODE
       ENTITY SalesOrder
