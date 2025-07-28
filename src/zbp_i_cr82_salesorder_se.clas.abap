@@ -1,0 +1,5 @@
+CLASS zbp_i_cr82_salesorder_se DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zi_cr82_salesorder_h.
+ENDCLASS.
+
+CLASS zbp_i_cr82_salesorder_se IMPLEMENTATION.
+ENDCLASS.

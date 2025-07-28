@@ -1,0 +1,18 @@
+projection;
+strict ( 2 );
+define behavior for ZC_CR82_SalesOrder_H alias SalesOrder
+{
+  use create;
+  use update;
+  use delete;
+
+  use association _Item { create; }
+}
+
+define behavior for ZC_CR82_SalesOrder_I alias SalesOrderItem
+{
+  use update;
+  use delete;
+  use action CalculateTotalNetValue;
+  use association _Header;
+}

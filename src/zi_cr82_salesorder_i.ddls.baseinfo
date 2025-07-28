@@ -3,11 +3,11 @@
 {
 "FROM":
 [
-"ZCR82_T_SE_CAB"
+"ZCR82_T_SO_I"
 ],
 "ASSOCIATED":
 [
-"ZCR82_I_SE_ITM"
+"ZI_CR82_SALESORDER_H"
 ],
 "BASE":
 [],

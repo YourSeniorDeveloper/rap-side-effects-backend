@@ -1,0 +1,5 @@
+@EndUserText.label: 'Sales Order Service'
+define service ZUI_CR82_SALESORDER {
+  expose ZC_CR82_SalesOrder_H as SalesOrder;
+  expose ZC_CR82_SalesOrder_I as SalesOrderItem;
+}

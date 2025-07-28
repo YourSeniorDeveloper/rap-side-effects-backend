@@ -1,0 +1,36 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: {
+  typeName: 'Sales Order',
+  typeNamePlural: 'Sales Orders',
+  title: { type: #STANDARD, value: 'OrderID' },
+  description: { type: #STANDARD, value: 'CustomerID' }
+}
+annotate entity ZC_CR82_SalesOrder_H with
+{
+
+  @UI.facet: [{ id: 'General',
+                purpose: #STANDARD,
+                type: #IDENTIFICATION_REFERENCE,
+                label: 'General Information',
+                position: 10 },
+              { targetElement: '_Item',
+                id: 'Items',
+                type: #LINEITEM_REFERENCE,
+                label: 'Items',
+                position: 20 }]
+  @UI.identification: [{ position: 10, label: 'Order ID' }]
+  @UI.lineItem: [{ position: 10, label: 'Order ID' }]
+  @Search.defaultSearchElement: true
+  OrderId;
+  @UI.identification: [{ position: 20, label: 'Customer ID' }]
+  @UI.lineItem: [{ position: 20, label: 'Customer ID' }]
+  @Search.defaultSearchElement: true
+  CustomerId;
+  @UI.identification: [{ position: 30, label: 'Order Date' }]
+  @UI.lineItem: [{ position: 30, label: 'Order Date' }]
+  OrderDate;
+  @UI.identification: [{ position: 40, label: 'Total Net Value' }]
+  @UI.lineItem: [{ position: 40, label: 'Total Net Value' }]
+  TotalNetValue;
+
+}

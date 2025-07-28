@@ -1,0 +1,63 @@
+managed implementation in class zbp_i_cr82_salesorder_se unique;
+strict ( 2 );
+
+define behavior for ZI_CR82_SalesOrder_H alias SalesOrder
+persistent table zcr82_t_so_h
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create ( authorization : global );
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SalesOrderUuid;
+  field ( readonly ) TotalNetValue, CreationDateTime, LastChangedDateTime;
+
+  association _Item { create; }
+
+  mapping for zcr82_t_so_h
+  {
+    SalesOrderUuid = sales_order_uuid;
+    OrderId = order_id;
+    CustomerId = customer_id;
+    OrderDate = order_date;
+    TotalNetValue = total_net_value;
+    CreationDateTime = creation_date_time;
+    LastChangedDateTime = last_changed_date_time;
+  }
+
+}
+define behavior for ZI_CR82_SalesOrder_I alias SalesOrderItem
+persistent table zcr82_t_so_i
+lock dependent by _Header
+authorization dependent by _Header
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly, numbering : managed ) SalesOrderItemUuid;
+  field ( readonly ) SalesOrderUuid;
+  association _Header;
+
+  determination CalculateTotalNetValue on save { field NetValue; }
+
+
+  side effects {
+    //determine action CalculateTotalNetValue executed on field NetValue affects messages;
+    field NetValue affects field _Header.TotalNetValue;
+  }
+
+  mapping for zcr82_t_so_i
+  {
+    SalesOrderUuid = sales_order_uuid;
+    SalesOrderItemUuid = sales_order_item_uuid;
+    ProductId = product_id;
+    Quantity = quantity;
+    UnitPrice = unit_price;
+    NetValue = net_value;
+    CreationDateTime = creation_date_time;
+    LastChangedDateTime = last_changed_date_time;
+
+  }
+
+}

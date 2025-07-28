@@ -1,0 +1,29 @@
+@Metadata.layer: #CORE
+
+annotate entity ZC_CR82_SalesOrder_I with
+{
+
+  @UI.facet: [{ id: 'General',
+                  purpose: #STANDARD,
+                  type: #IDENTIFICATION_REFERENCE,
+                  label: 'Item Information',
+                  position: 10 }]
+
+  @UI.lineItem: [{ position: 20, label: 'Product ID' }]
+  @UI.identification: [{ position: 20, label: 'Product ID' }]
+  ProductId;
+
+  @UI.lineItem: [{ position: 30, label: 'Quantity' }]
+  @UI.identification: [{ position: 30, label: 'Quantity' }]
+  Quantity;
+
+  @UI.lineItem: [{ position: 40, label: 'Unit Price' }]
+  @UI.identification: [{ position: 40, label: 'Unit Price' }]
+  UnitPrice;
+
+  @UI.lineItem: [{ position: 50, label: 'Net Value' }]
+  @UI.identification: [{ position: 50, label: 'Net Value' }]
+  NetValue;
+
+
+}
