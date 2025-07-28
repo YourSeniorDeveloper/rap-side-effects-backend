@@ -11,7 +11,7 @@ authorization master ( instance )
   update;
   delete;
   field ( readonly, numbering : managed ) SalesOrderUuid;
-  field ( readonly ) TotalNetValue, CreationDateTime, LastChangedDateTime;
+  field ( readonly ) CreationDateTime, LastChangedDateTime;
 
   association _Item { create; }
 
@@ -39,7 +39,7 @@ authorization dependent by _Header
   field ( readonly ) SalesOrderUuid;
   association _Header;
 
-  determination CalculateTotalNetValue on save { field NetValue; }
+  determination CalculateTotalNetValue on modify { field NetValue; }
 
 
   side effects {

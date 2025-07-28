@@ -1,5 +1,6 @@
 projection;
 strict ( 2 );
+use side effects;
 define behavior for ZC_CR82_SalesOrder_H alias SalesOrder
 {
   use create;
@@ -13,6 +14,5 @@ define behavior for ZC_CR82_SalesOrder_I alias SalesOrderItem
 {
   use update;
   use delete;
-  use action CalculateTotalNetValue;
   use association _Header;
 }
