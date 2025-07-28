@@ -15,6 +15,9 @@ CLASS lhc_SalesOrder DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS get_global_authorizations FOR GLOBAL AUTHORIZATION
       IMPORTING REQUEST requested_authorizations FOR SalesOrder RESULT result.
 
+    METHODS validaValorTotalOrdem FOR VALIDATE ON SAVE
+      IMPORTING keys FOR SalesOrder~validaValorTotalOrdem.
+
 ENDCLASS.
 
 " Implementação da classe lhc_SalesOrder
@@ -57,8 +60,8 @@ CLASS lhc_SalesOrder IMPLEMENTATION.
 
     " Soma o NetValue dos itens não alterados
     LOOP AT lt_sales_order_item INTO DATA(ls_sales_order_item).
-        CHECK NOT line_exists( lt_changed_items[ SalesOrderItemUuid = ls_sales_order_item-SalesOrderItemUuid ] ).
-        lv_total_net_value = lv_total_net_value + ls_sales_order_item-NetValue.
+      CHECK NOT line_exists( lt_changed_items[ SalesOrderItemUuid = ls_sales_order_item-SalesOrderItemUuid ] ).
+      lv_total_net_value = lv_total_net_value + ls_sales_order_item-NetValue.
     ENDLOOP.
 
     " Atualiza o valor total líquido no cabeçalho do pedido
@@ -69,6 +72,23 @@ CLASS lhc_SalesOrder IMPLEMENTATION.
                     TotalNetValue = lv_total_net_value ) )
       REPORTED DATA(lt_modified_items)
       FAILED DATA(lt_failed_modify).
+
+  ENDMETHOD.
+
+  METHOD validaValorTotalOrdem.
+
+    READ ENTITIES OF ZI_CR82_SalesOrder_H IN LOCAL MODE
+      ENTITY SalesOrder
+      ALL FIELDS WITH CORRESPONDING #( keys )
+        RESULT DATA(lt_changed_items)
+        FAILED DATA(lt_failed_items).
+
+    IF lt_changed_items[ 1 ]-TotalNetValue > 100.
+      APPEND VALUE #( %tky        = lt_changed_items[ 1 ]-%tky
+                      %msg        = new_message_with_text(    severity = if_abap_behv_message=>severity-error
+                                                              text = 'Valor da ordem não pode ultrapassar 100,00' )
+                      %element-TotalNetValue  = if_abap_behv=>mk-on ) TO reported-salesorder.
+    ENDIF.
 
   ENDMETHOD.
 

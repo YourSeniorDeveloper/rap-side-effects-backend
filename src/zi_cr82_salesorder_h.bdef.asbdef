@@ -15,6 +15,8 @@ authorization master ( instance )
 
   association _Item { create; }
 
+  validation validaValorTotalOrdem on save { field TotalNetValue; }
+
   mapping for zcr82_t_so_h
   {
     SalesOrderUuid = sales_order_uuid;
